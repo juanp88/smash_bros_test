@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smash_test/view_model/list_character_viewmodel.dart';
+import 'package:smash_test/view_model/list_universes_viewmodel.dart';
 
+import 'routes/rutas.dart';
 import 'view/home.dart';
 import 'view/onboard/onboard.dart';
 
@@ -20,15 +22,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => CharacterViewModel())
+          ChangeNotifierProvider(create: (_) => CharacterViewModel()),
+          ChangeNotifierProvider(create: (_) => UniversesViewModel())
         ],
         child: MaterialApp(
             title: 'Smash Test',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: // OnBoard()
-                //  isviewed != 0 ? OnBoard() : MyHomePage(),
-                MyHomePage()));
+            // home: // OnBoard()
+            //  isviewed != 0 ? OnBoard() : MyHomePage(),
+            //   MyHomePage()));
+            debugShowCheckedModeBanner: false,
+            initialRoute: 'home',
+            routes: generateRoutes()));
   }
 }
