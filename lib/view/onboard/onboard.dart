@@ -64,11 +64,8 @@ class _OnBoardState extends State<OnBoard> {
           TextButton(
             onPressed: () {
               _storeOnboardInfo();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          MyHomePage(title: 'Smash Demo Home Page')));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()));
             },
             child: Text(
               "Skip",
@@ -96,11 +93,8 @@ class _OnBoardState extends State<OnBoard> {
                   print(index);
                   if (index == screens.length - 1) {
                     await _storeOnboardInfo();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyHomePage(title: 'Smash Demo Home Page')));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()));
                   }
 
                   _pageController.nextPage(
@@ -166,8 +160,7 @@ class _OnBoardState extends State<OnBoard> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MyHomePage(
-                                      title: 'Smash Demo Home Page')));
+                                  builder: (context) => MyHomePage()));
                         }
 
                         _pageController.nextPage(
