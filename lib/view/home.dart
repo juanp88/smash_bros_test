@@ -36,10 +36,11 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-_universeButton(String universeName) {
+_universeButton(String universeName, String id) {
   return Container(
       height: 50,
       child: FloatingActionButton.extended(
+          heroTag: id,
           elevation: 1,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
@@ -61,7 +62,9 @@ _universeList(UniversesViewModel universesViewModel) {
             return Container(
               padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
               child: Column(
-                children: [_universeButton(universeModel.name)],
+                children: [
+                  _universeButton(universeModel.name, universeModel.objectId)
+                ],
               ),
             );
           },
@@ -83,7 +86,8 @@ _ui(CharacterViewModel characterViewModel) {
             return Container(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'character');
+                  Navigator.pushNamed(context, 'character',
+                      arguments: characterModel);
                 },
                 child: Row(
                   children: [

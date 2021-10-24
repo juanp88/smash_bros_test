@@ -11,9 +11,11 @@ class service {
   static Future<Object> fetchCharacterApi() async {
     try {
       String url = "https://593cdf8fb56f410011e7e7a9.mockapi.io/fighters";
-      final response = await http.get(Uri.parse(url));
+      final response = await http
+          .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
-        return Success(response: characterModelFromJson(response.body));
+        return Success(
+            response: characterModelFromJson(utf8.decode(response.bodyBytes)));
       }
       return Failure(code: 100, errorResponse: 'Invalid Response');
     } on HttpException {
@@ -27,9 +29,11 @@ class service {
   static Future<Object> fetchUniverseApi() async {
     try {
       String url = "https://593cdf8fb56f410011e7e7a9.mockapi.io/universes";
-      final response = await http.get(Uri.parse(url));
+      final response = await http
+          .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
-        return Success(response: universeModelFromJson(response.body));
+        return Success(
+            response: universeModelFromJson(utf8.decode(response.bodyBytes)));
       }
       return Failure(code: 100, errorResponse: 'Invalid Response');
     } on HttpException {
