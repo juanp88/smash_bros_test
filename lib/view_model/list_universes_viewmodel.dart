@@ -11,6 +11,9 @@ class UniversesViewModel extends ChangeNotifier {
   bool get loading => _loading;
   List<UniverseModel> get universesListModel => _universesListModel;
 
+  var allUniverseTag = UniverseModel(
+      objectId: '0000', name: 'All', description: 'All universes');
+
   UniversesViewModel() {
     getUniverses();
   }
@@ -22,6 +25,7 @@ class UniversesViewModel extends ChangeNotifier {
 
   setUniversesListModel(List<UniverseModel> universesListModel) {
     _universesListModel = universesListModel;
+    _universesListModel.insert(0, allUniverseTag);
   }
 
   getUniverses() async {

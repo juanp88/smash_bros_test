@@ -48,13 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void filterCharacters(
-      String universe, CharacterViewModel characterViewModel) {
-    var filteredCharacters = characterViewModel.characterListModel
-        .where((character) => character.universe == universe)
-        .toList();
-  }
-
   _universeButton(String universeName, String id, BuildContext context) {
     return Container(
         height: 50,
@@ -66,30 +59,32 @@ class _MyHomePageState extends State<MyHomePage> {
             label: Text(universeName),
             onPressed: () {
               setState(() {
-                universeFilter = universeName;
+                if (universeName == 'All') {
+                  universeFilter = "";
+                } else {
+                  universeFilter = universeName;
+                }
               });
 
-              print(
-                  universeFilter); // Provider.of<CharacterViewModel>(context, listen: false)
+              print(universeFilter);
+              // Provider.of<CharacterViewModel>(context, listen: false)
               //     .changeUniverseFilter(universeName);
             }));
   }
 
 //listview para filtro de universos
   _universeList(UniversesViewModel universesViewModel, BuildContext context) {
-    var allUniverseTag = UniverseModel(
-        objectId: '0000', name: 'All', description: 'All universes');
+    var universeList = universesViewModel.universesListModel;
     if (universesViewModel.loading) {
       return Container();
-    } else {}
-    // universesViewModel.universesListModel.insert(0, allUniverseTag);
+    }
 
     return Container(
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              UniverseModel universeModel =
-                  universesViewModel.universesListModel[index];
+              UniverseModel universeModel = universeList[index];
+
               return Container(
                 padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
                 child: Column(
@@ -101,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
             separatorBuilder: (context, index) => Divider(),
-            itemCount: universesViewModel.universesListModel.length));
+            itemCount: universeList.length));
   }
 
 //listview de personajes
