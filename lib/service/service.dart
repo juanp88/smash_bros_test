@@ -8,11 +8,12 @@ import 'package:smash_test/models/universe_model.dart';
 import 'package:smash_test/service/api_status.dart';
 
 class service {
-  static Future<Object> fetchCharacterApi() async {
+  static Future<Object> fetchCharacterApi(String universe) async {
     try {
-      String url = "https://593cdf8fb56f410011e7e7a9.mockapi.io/fighters";
-      final response = await http
-          .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
+      String url =
+          "https://593cdf8fb56f410011e7e7a9.mockapi.io/fighters?universe=";
+      final response = await http.get(Uri.parse(url + universe),
+          headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {
         return Success(
             response: characterModelFromJson(utf8.decode(response.bodyBytes)));
