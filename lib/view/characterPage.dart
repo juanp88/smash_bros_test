@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smash_test/models/character_model.dart';
 
 class CharacterPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _CharacterPageState extends State<CharacterPage> {
                 Expanded(
                   flex: 2,
                   child: Container(
-                    color: Colors.amberAccent,
+                    // color: Colors.amberAccent,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -43,8 +44,17 @@ class _CharacterPageState extends State<CharacterPage> {
                         Container(
                           height: 20,
                         ),
-                        Text(routeData.rate.toString()),
-                        Text(routeData.downloads),
+                        RatingBarIndicator(
+                          rating: routeData.rate.toDouble(),
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          itemCount: 5,
+                          itemSize: 25.0,
+                          direction: Axis.horizontal,
+                        ),
+                        Text('Downloads: ' + routeData.downloads),
                         Container(
                           height: 20,
                         ),
