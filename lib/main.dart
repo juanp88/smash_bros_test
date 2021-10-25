@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smash_test/view_model/list_character_viewmodel.dart';
 import 'package:smash_test/view_model/list_universes_viewmodel.dart';
 
+import 'providers/sort_provider.dart';
 import 'routes/rutas.dart';
 import 'view/home.dart';
 import 'view/onboard/onboard.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => CharacterViewModel()),
-          ChangeNotifierProvider(create: (_) => UniversesViewModel())
+          ChangeNotifierProvider(create: (_) => UniversesViewModel()),
+          ChangeNotifierProvider(create: (_) => SortProvider())
         ],
         child: MaterialApp(
             title: 'Smash Test',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smash_test/models/character_model.dart';
 import 'package:smash_test/models/universe_model.dart';
+import 'package:smash_test/providers/sort_provider.dart';
 import 'package:smash_test/view_model/list_character_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:smash_test/view_model/list_universes_viewmodel.dart';
@@ -12,11 +13,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String universeFilter = "";
+  String sortFilter = "";
+
   @override
   Widget build(BuildContext context) {
     CharacterViewModel characterViewModel = context.watch<CharacterViewModel>();
     UniversesViewModel universesViewModel = context.watch<UniversesViewModel>();
+    final filterinfo = Provider.of<SortProvider>(context);
     MediaQueryData queryData = MediaQuery.of(context);
+
+    sortFilter = filterinfo.filter;
 
     return Scaffold(
       appBar: AppBar(
@@ -99,14 +105,39 @@ class _MyHomePageState extends State<MyHomePage> {
             itemCount: universeList.length));
   }
 
+  sortListview(list) {
+    List<CharacterModel> lista = list;
+    if (sortFilter == 'Name') {
+      lista.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
+    } else if (sortFilter == 'Price') {
+      lista.sort((a, b) {
+        return int.parse(a.price).compareTo(int.parse(b.price));
+      });
+    } else if (sortFilter == 'Rate') {
+      lista.sort((a, b) {
+        return a.rate.compareTo(b.rate);
+      });
+    } else if (sortFilter == 'Downloads') {
+      lista.sort((a, b) {
+        return int.parse(a.downloads).compareTo(int.parse(b.downloads));
+      });
+    }
+    return lista;
+  }
+
 //listview de personajes
   Widget _ui(CharacterViewModel characterViewModel, BuildContext context) {
     if (characterViewModel.loading) {
       return Container();
     }
-    // print(data.characterListModel.toString());
-    var allCharacters = characterViewModel.characterListModel;
-    var filteredCharacters = characterViewModel.characterListModel
+    // print(data.characterListModel.toString());s
+    List<CharacterModel> allCharacters = characterViewModel.characterListModel;
+
+    allCharacters = sortListview(allCharacters);
+
+    var filteredCharacters = allCharacters
         .where((character) =>
             character.universe.toLowerCase() == (universeFilter.toLowerCase()))
         .toList();
