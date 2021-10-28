@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             //  isviewed != 0 ? OnBoard() : MyHomePage(),
             //   MyHomePage()));
             debugShowCheckedModeBanner: false,
-            initialRoute: 'home',
+            initialRoute: isviewed != 0 ? 'onboarding' : 'home',
             routes: generateRoutes()));
   }
 }

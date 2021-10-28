@@ -14,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String universeFilter = "";
   String sortFilter = "";
+  var rateFilter = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     MediaQueryData queryData = MediaQuery.of(context);
 
     sortFilter = filterinfo.filter;
+    rateFilter = filterinfo.rate;
 
     return Scaffold(
       appBar: AppBar(
@@ -71,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   universeFilter = universeName;
                 }
               });
-
               print(universeFilter);
               // Provider.of<CharacterViewModel>(context, listen: false)
               //     .changeUniverseFilter(universeName);
@@ -137,18 +138,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
     allCharacters = sortListview(allCharacters);
 
-    var filteredCharacters = allCharacters
-        .where((character) =>
-            character.universe.toLowerCase() == (universeFilter.toLowerCase()))
-        .toList();
+    var intRate = rateFilter.toInt();
+
+    var filteredCharacters = rateFilter == 0
+        ? allCharacters
+            .where((character) =>
+                character.universe.toLowerCase() ==
+                (universeFilter.toLowerCase()))
+            .toList()
+        : universeFilter != ''
+            ? allCharacters
+                .where((character) =>
+                    character.universe.toLowerCase() ==
+                        (universeFilter.toLowerCase()) &&
+                    (character.rate == intRate))
+                .toList()
+            : allCharacters
+                .where((character) => (character.rate == intRate))
+                .toList();
 
     return Expanded(
         child: ListView.separated(
             itemBuilder: (context, index) {
               // allCharacters[index];
-              CharacterModel characterModel = (universeFilter.isEmpty
-                  ? allCharacters[index]
-                  : filteredCharacters[index]);
+              CharacterModel characterModel =
+                  (universeFilter.isEmpty && rateFilter == 0
+                      ? allCharacters[index]
+                      : filteredCharacters[index]);
               // characterViewModel.characterListModel[index];
 
               return Container(
@@ -189,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
             separatorBuilder: (context, index) => Divider(),
-            itemCount: universeFilter.isEmpty
+            itemCount: universeFilter.isEmpty && rateFilter == 0
                 ? allCharacters.length
                 : filteredCharacters.length));
   }

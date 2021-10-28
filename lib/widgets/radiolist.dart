@@ -12,14 +12,22 @@ class _TextRadioListState extends State<TextRadioList> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<SortProvider>(context);
-    return ListView.builder(
-      itemBuilder: (ctx, index) => RadioListTile<int>(
-        value: index,
-        groupValue: provider.selectedButton,
-        onChanged: provider.setSelectedButton,
-        title: Text(provider.filtersList[index]),
-      ),
-      itemCount: provider.filtersList.length,
+    return LimitedBox(
+      maxHeight: MediaQuery.of(context).size.height * 0.28,
+      child: ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (ctx, index) => RadioListTile<int>(
+                tileColor: Colors.white,
+                value: index,
+                groupValue: provider.selectedButton,
+                onChanged: provider.setSelectedButton,
+                title: Text(provider.filtersList[index]),
+              ),
+          itemCount: provider.filtersList.length,
+          separatorBuilder: (context, index) => Divider(
+                height: 1,
+              )),
     );
   }
 }
